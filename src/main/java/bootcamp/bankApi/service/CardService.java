@@ -1,9 +1,7 @@
 package bootcamp.bankApi.service;
 
 import bootcamp.bankApi.dao.CardDao;
-import bootcamp.bankApi.models.Account;
 import bootcamp.bankApi.models.Card;
-import bootcamp.bankApi.models.Customer;
 
 import java.util.List;
 import java.util.Random;
@@ -15,7 +13,7 @@ public class CardService {
         this.cardDao = cardDao;
     }
 
-    public static String generateNumber(int length) {
+    static String generateNumber(int length) {
         Random rand = new Random();
         StringBuilder number = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -36,16 +34,18 @@ public class CardService {
         return cardDao.findListCardByAccount(accountId);
     }
 
-    public void addNewCard(int accountId) {
+    public Card addNewCard(int accountId) {
         Card newCard = new Card();
         newCard.setAccountId(accountId);
         newCard.setNumber(generateNumber(16));
         cardDao.save(newCard);
+        return newCard;
     }
 
-    public void deleteCard(int cardId) {
+    public Card deleteCard(int cardId) {
         Card cardToDelete = cardDao.findById(cardId);
         cardDao.delete(cardToDelete);
+        return cardToDelete;
     }
 
 }
