@@ -4,15 +4,11 @@ import bootcamp.bankApi.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.List;
-
 abstract class AbstractDao<T> implements Dao<T> {
 
-    @Override
-    public T findById(int id) {
-        return null;
-    }
-
+    /*
+     Добавить запись
+      */
     @Override
     public void save(T model) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
@@ -22,6 +18,9 @@ abstract class AbstractDao<T> implements Dao<T> {
         session.close();
     }
 
+    /*
+     Обновить запись
+      */
     @Override
     public void update(T model) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
@@ -31,13 +30,15 @@ abstract class AbstractDao<T> implements Dao<T> {
         session.close();
     }
 
+    /*
+     Удалить запись
+      */
     @Override
     public void delete(T model) {
-
-    }
-
-    @Override
-    public List<T> findAll() {
-        return null;
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(model);
+        transaction.commit();
+        session.close();
     }
 }

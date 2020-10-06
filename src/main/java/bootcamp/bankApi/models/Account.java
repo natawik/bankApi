@@ -11,7 +11,7 @@ public class Account {
     private int id;
 
     @Column(name = "account_number")
-    private int accountNumber;
+    private String accountNumber;
 
     @Column(name = "balance")
     private float balance;
@@ -19,10 +19,9 @@ public class Account {
     @Column(name = "customer_id")
     private int customerId;
 
-
     public Account() {}
 
-    public Account(int accountNumber, float balance, int customerId) {
+    public Account(String accountNumber, float balance, int customerId) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.customerId = customerId;
@@ -32,11 +31,11 @@ public class Account {
         return id;
     }
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(int accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
