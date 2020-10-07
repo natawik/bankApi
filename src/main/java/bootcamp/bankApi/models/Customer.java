@@ -1,7 +1,13 @@
 package bootcamp.bankApi.models;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -10,25 +16,8 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
+    @NonNull
     @Column(name = "full_name")
     String fullName;
 
-
-    public Customer() {}
-
-    public Customer(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 }
