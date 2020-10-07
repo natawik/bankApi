@@ -9,6 +9,10 @@ import java.util.Random;
 public class CardService {
     private final CardDao cardDao;
 
+    public CardService() {
+        this.cardDao = new CardDao();
+    }
+
     public CardService(CardDao cardDao) {
         this.cardDao = cardDao;
     }

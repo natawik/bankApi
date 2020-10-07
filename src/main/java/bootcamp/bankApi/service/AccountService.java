@@ -10,12 +10,20 @@ import static bootcamp.bankApi.service.CardService.generateNumber;
 public class AccountService {
     private final AccountDao accountDao;
 
+    public AccountService() {
+        this.accountDao = new AccountDao();
+    }
+
     public AccountService(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
     public List<Account> findAllAccounts() {
         return accountDao.findAll();
+    }
+
+    public Account findAccountById(int accountId) {
+        return accountDao.findById(accountId);
     }
 
     public List<Account> findAccountsForCustomer(int customerId) {
