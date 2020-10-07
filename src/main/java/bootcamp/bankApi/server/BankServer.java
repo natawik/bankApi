@@ -15,7 +15,6 @@ public class BankServer {
     private static final int PORT = 8000;
 
     public void start() {
-        System.out.println("[starting..]");
         try {
             HttpServer httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
             httpServer.createContext("/cards", new CardList());
@@ -27,14 +26,6 @@ public class BankServer {
         } catch (IOException e) {
             System.out.println("[ERROR] " + e);
         }
-        System.out.println("[started]");
-    }
 
-    static class MyExecutor implements Executor {
-
-        @Override
-        public void execute(Runnable command) {
-
-        }
     }
 }

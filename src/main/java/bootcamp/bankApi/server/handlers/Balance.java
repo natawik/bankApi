@@ -2,6 +2,9 @@ package bootcamp.bankApi.server.handlers;
 
 import bootcamp.bankApi.models.Account;
 import bootcamp.bankApi.service.AccountService;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.net.httpserver.HttpExchange;
@@ -11,19 +14,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Balance implements HttpHandler {
+public class Balance extends AbstractHandler {
 
     AccountService accountService = new AccountService();
 
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
+    public void handle(HttpExchange httpExchange) {
+        try {
+            process(httpExchange);
+        } catch (JsonProcessingException j) {
+            j.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void process(HttpExchange httpExchange) throws JsonProcessingException, IOException {
         String method = httpExchange.getRequestMethod();
         Account account = new Account();
 
         if (method.equals("GET")) {
-            account = returnAccountGet(httpExchange.getRequestURI().getQuery());
+            account = returnAccountGet(httpExchange.getRequestURI().getQuery(), "account");
         } else if (method.equals("POST")) {
-            account = returnAccountPost(httpExchange.getRequestBody());
+            account = returnAccountPost(httpExchange);
         }
 
         sendResponse(account, httpExchange);
@@ -35,66 +48,55 @@ public class Balance implements HttpHandler {
         objectNode.put("id", account.getId());
         objectNode.put("balance", account.getBalance());
         String response = objectMapper.writeValueAsString(objectNode);
-        httpExchange.sendResponseHeaders(200, response.length());
-        OutputStream out = httpExchange.getResponseBody();
-        out.write(response.getBytes());
-        out.close();
+        sendResponse(response, httpExchange);
     }
 
-    private Account returnAccountGet(String uri) {
-        String accountId = getAccountNumber(uri);
+    private Account returnAccountGet(String uri, String field) {
+        String accountId = getAccountNumber(uri, field);
         if (!accountId.equals("")) {
             return accountService.findAccountById(Integer.valueOf(accountId));
-
         } else {
             return new Account();
         }
     }
 
-    private Account returnAccountPost(InputStream in) throws IOException {
-        byte[] buffer = new byte[32 * 1024];
-        int readBytes = in.read(buffer);
-
-        String request = new String(buffer, 0, readBytes);
-        in.close();
-
-        if (!request.equals("")) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            AccountBalance accountBalance = objectMapper.readValue(request, AccountBalance.class);
-            return accountService.findAccountById(accountBalance.getAccountId());
-        }
-
-        return new Account();
-    }
-
-    private String getAccountNumber(String params) {
+    private String getAccountNumber(String params, String field) {
         if (params == null) return "";
 
         String[] paramsArr = params.split("&");
         for (String param : paramsArr) {
-            if (param.contains("account")) {
+            if (param.contains(field)) {
                 return param.substring(param.indexOf("=") + 1);
             }
         }
         return "";
     }
 
+    private Account returnAccountPost(HttpExchange httpExchange) {
+        String request = getRequest(httpExchange);
+
+        if (!request.equals("")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            AccountBalance accountBalance;
+            try {
+                accountBalance = objectMapper.readValue(request, AccountBalance.class);
+                return accountService.findAccountById(accountBalance.getAccountId());
+            } catch (JsonProcessingException e) {
+                return new Account();
+            }
+        }
+
+        return new Account();
+    }
+
+    @JsonAutoDetect
     private static class AccountBalance {
         private int accountId;
 
-        public AccountBalance() {
-        }
-
-        public AccountBalance(int accountId) {
-            this.accountId = accountId;
-        }
+        public AccountBalance() {}
 
         public int getAccountId() {
             return accountId;
-        }
-
-        public void setAccountId(int accountId) {
-            this.accountId = accountId;
         }
     }
 }

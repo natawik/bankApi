@@ -1,57 +1,48 @@
 package bootcamp.bankApi.server.handlers;
 
 import bootcamp.bankApi.service.CardService;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
-public class AddCard implements HttpHandler {
+public class AddCard extends AbstractHandler {
+
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
+    public void handle(HttpExchange httpExchange) {
+        try {
+            process(httpExchange);
+        } catch (JsonProcessingException j) {
+            j.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void process(HttpExchange httpExchange) throws JsonProcessingException, IOException {
         CardService cardService = new CardService();
+        String request = getRequest(httpExchange);
 
-        InputStream in = httpExchange.getRequestBody();
-        byte[] buffer = new byte[32 * 1024];
-        int readBytes = in.read(buffer);
-        String request = new String(buffer, 0, readBytes);
-        System.out.println(request);
-        in.close();
-
+        ObjectMapper objectMapper = new ObjectMapper();
         if (!request.equals("")) {
-            ObjectMapper objectMapper = new ObjectMapper();
             CardAccount cardAccount = objectMapper.readValue(request, CardAccount.class);
-            System.out.println(cardAccount.accountId);
-            cardService.addNewCard(cardAccount.accountId);
+            cardService.addNewCard(cardAccount.getAccountId());
         }
 
         String response = "";
-        httpExchange.sendResponseHeaders(200, response.length());
-        OutputStream out = httpExchange.getResponseBody();
-        out.write(response.getBytes());
-        out.close();
+        sendResponse(response, httpExchange);
     }
 
+    @JsonAutoDetect
     private static class CardAccount {
         private int accountId;
 
-        public CardAccount() {
-        }
-
-        public CardAccount(int accountId) {
-            this.accountId = accountId;
-        }
+        public CardAccount() {}
 
         public int getAccountId() {
             return accountId;
-        }
-
-        public void setAccountId(int accountId) {
-            this.accountId = accountId;
         }
     }
 }
