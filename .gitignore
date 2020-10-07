@@ -1,2 +1,11 @@
+<<<<<<< HEAD
 .idea/
 target/
+=======
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+.idea/
+*.iml
+/target/
+>>>>>>> 5d5be00e652c110649e26f764e177bf77af060b3

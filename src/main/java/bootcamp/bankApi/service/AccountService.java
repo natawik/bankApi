@@ -5,6 +5,8 @@ import bootcamp.bankApi.models.Account;
 
 import java.util.List;
 
+import lombok.*;
+
 import static bootcamp.bankApi.service.CardService.generateNumber;
 
 public class AccountService {
@@ -44,6 +46,7 @@ public class AccountService {
         if (acc != null) {
             if (amount > 0) {
                 acc.setBalance(acc.getBalance() + amount);
+
                 accountDao.update(acc);
             }
         }
