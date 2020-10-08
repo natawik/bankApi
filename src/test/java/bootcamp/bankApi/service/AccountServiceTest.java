@@ -2,6 +2,7 @@ package bootcamp.bankApi.service;
 
 import bootcamp.bankApi.dao.AccountDao;
 import bootcamp.bankApi.models.Account;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,12 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountServiceTest {
+
+    @After
+    public void validate() {
+        validateMockitoUsage();
+    }
+
     @InjectMocks
     AccountService subj;
 
