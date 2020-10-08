@@ -44,7 +44,7 @@ public class AccountServiceTest {
         assertEquals(2, accountsForCheck.size());
         assertEquals(accounts, accountsForCheck);
 
-        verify(accountDao, times(1)).findAll();
+        verify(accountDao).findAll();
     }
 
     @Test
@@ -58,7 +58,7 @@ public class AccountServiceTest {
         assertTrue(accountsForCheck.isEmpty());
         assertEquals(accounts, accountsForCheck);
 
-        verify(accountDao, times(1)).findAll();
+        verify(accountDao).findAll();
     }
 
     @Test
@@ -78,7 +78,7 @@ public class AccountServiceTest {
         assertEquals(1, accountsForCheck.size());
         assertEquals(accounts, accountsForCheck);
 
-        verify(accountDao, times(1)).getListAccountForCustomer(1);
+        verify(accountDao).getListAccountForCustomer(1);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class AccountServiceTest {
         assertTrue(accountsForCheck.isEmpty());
         assertEquals(accounts, accountsForCheck);
 
-        verify(accountDao, times(1)).getListAccountForCustomer(1);
+        verify(accountDao).getListAccountForCustomer(1);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class AccountServiceTest {
 
         assertEquals(balance, acc.getBalance(), 0);
 
-        verify(accountDao, times(1)).findById(1);
+        verify(accountDao).findById(1);
     }
 
     @Test
@@ -118,24 +118,7 @@ public class AccountServiceTest {
 
         assertNull(balance);
 
-        verify(accountDao, times(1)).findById(1);
-    }
-
-    @Test
-    public void testDepositSuccess() {
-        Account acc = new Account();
-        acc.setCustomerId(1);
-        acc.setAccountNumber("123456789");
-        acc.setBalance(23.4F);
-        when(accountDao.findById(1)).thenReturn(acc);
-
-        subj.deposit(1, 100.0F);
-        Float balance = subj.checkBalance(1);
-
-        assertEquals(balance, 123.4F, 0);
-
-        verify(accountDao, times(2)).findById(1); //in deposit and in checkBalance
-        verify(accountDao, times(1)).update(acc);
+        verify(accountDao).findById(1);
     }
 
     @Test
@@ -147,7 +130,7 @@ public class AccountServiceTest {
 
         assertNull(balance);
 
-        verify(accountDao, times(2)).findById(1); //in deposit and in checkBalance
+        verify(accountDao, times(2)).findById(1);
     }
 
     @Test
@@ -163,39 +146,13 @@ public class AccountServiceTest {
 
         assertEquals(balance, 23.4F, 0);
 
-        verify(accountDao, times(2)).findById(1); //in deposit and in checkBalance
-        verify(accountDao, times(0)).update(acc);
-    }
-
-    @Test
-    public void testAddNewAccountAdded() {
-        Account account = subj.addNewAccount(1);
-
-        assertNotNull(account);
-
-        verify(accountDao, times(1)).save(account);
+        verify(accountDao, times(2)).findById(1);
     }
 
     @Test
     public void testAddNewAccountNotAdded() {
 
         verifyZeroInteractions(accountDao);
-    }
-
-    @Test
-    public void testDeleteAccountDeleted() {
-        Account account = new Account();
-        account.setCustomerId(1);
-        account.setAccountNumber("1289367");
-        account.setBalance(56.57F);
-        when(accountDao.findById(1)).thenReturn(account);
-
-        Account accountForCheck = subj.deleteAccount(1);
-
-        assertNotNull(accountForCheck);
-
-        verify(accountDao, times(1)).findById(1);
-        verify(accountDao, times(1)).delete(account);
     }
 
     @Test

@@ -126,30 +126,9 @@ public class CardServiceTest {
     }
 
     @Test
-    public void testAddNewCardAdded() {
-        Card card = subj.addNewCard(1);
-
-        verify(cardDao, times(1)).save(card);
-    }
-
-    @Test
     public void testAddNewCardNotAdded() {
 
         verifyZeroInteractions(cardDao);
-    }
-
-    @Test
-    public void testDeleteCardDeleted() {
-        Card card = new Card();
-        card.setAccountId(1);
-        card.setNumber("234470409");
-        when(cardDao.findById(1)).thenReturn(card);
-
-        Card cardToCheck = subj.deleteCard(1);
-
-        assertNotNull(cardToCheck);
-
-        verify(cardDao, times(1)).delete(card);
     }
 
     @Test
