@@ -61,7 +61,7 @@ public class Balance extends AbstractHandler {
     private Account returnAccountGet(String uri, String field) {
         String accountId = getAccountNumber(uri, field);
         if (!accountId.equals("")) {
-            return accountService.findAccountById(Integer.valueOf(accountId));
+            return accountService.findById(Integer.valueOf(accountId));
         } else {
             return new Account();
         }
@@ -87,7 +87,7 @@ public class Balance extends AbstractHandler {
             AccountBalance accountBalance;
             try {
                 accountBalance = objectMapper.readValue(request, AccountBalance.class);
-                return accountService.findAccountById(accountBalance.getAccountId());
+                return accountService.findById(accountBalance.getAccountId());
             } catch (JsonProcessingException e) {
                 return new Account();
             }

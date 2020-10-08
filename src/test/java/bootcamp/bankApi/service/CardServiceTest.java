@@ -35,7 +35,7 @@ public class CardServiceTest {
         cards.add(card2);
         when(cardDao.findAll()).thenReturn(cards);
 
-        List<Card> cardsForCheck = subj.findAllCards();
+        List<Card> cardsForCheck = subj.findAll();
 
         assertNotNull(cardsForCheck);
         assertFalse(cardsForCheck.isEmpty());
@@ -50,7 +50,7 @@ public class CardServiceTest {
         List<Card> cards = new ArrayList<>();
         when(cardDao.findAll()).thenReturn(cards);
 
-        List<Card> cardsForCheck = subj.findAllCards();
+        List<Card> cardsForCheck = subj.findAll();
 
         assertNotNull(cardsForCheck);
         assertTrue(cardsForCheck.isEmpty());

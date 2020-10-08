@@ -37,7 +37,7 @@ public class AccountServiceTest {
         accounts.add(acc2);
         when(accountDao.findAll()).thenReturn(accounts);
 
-        List<Account> accountsForCheck = subj.findAllAccounts();
+        List<Account> accountsForCheck = subj.findAll();
 
         assertNotNull(accountsForCheck);
         assertFalse(accountsForCheck.isEmpty());
@@ -52,7 +52,7 @@ public class AccountServiceTest {
         List<Account> accounts = new ArrayList<>();
         when(accountDao.findAll()).thenReturn(accounts);
 
-        List<Account> accountsForCheck = subj.findAllAccounts();
+        List<Account> accountsForCheck = subj.findAll();
 
         assertNotNull(accountsForCheck);
         assertTrue(accountsForCheck.isEmpty());

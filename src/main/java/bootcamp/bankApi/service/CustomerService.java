@@ -5,7 +5,7 @@ import bootcamp.bankApi.models.Customer;
 
 import java.util.List;
 
-public class CustomerService {
+public class CustomerService implements Service<Customer> {
     private final CustomerDao customerDao;
 
     public CustomerService() {
@@ -16,11 +16,29 @@ public class CustomerService {
         this.customerDao = customerDao;
     }
 
-    public List<Customer> findAllCustomers() {
-        return customerDao.findAll();
+
+    @Override
+    public Customer findById(int customerId) {
+        return customerDao.findById(customerId);
     }
 
-    public Customer findCustomerById(int customerId) {
-        return customerDao.findById(customerId);
+    @Override
+    public void save(Customer customer) {
+        customerDao.save(customer);
+    }
+
+    @Override
+    public void update(Customer customer) {
+        customerDao.update(customer);
+    }
+
+    @Override
+    public void delete(Customer customer) {
+        customerDao.delete(customer);
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return customerDao.findAll();
     }
 }

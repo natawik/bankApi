@@ -4,6 +4,7 @@ import bootcamp.bankApi.service.CardService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.net.httpserver.HttpExchange;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,10 @@ public class AddCard extends AbstractHandler {
             cardService.addNewCard(cardAccount.getAccountId());
         }
 
-        String response = "";
+        ObjectNode objectNode = objectMapper.createObjectNode();
+        objectNode.put("add", "true");
+
+        String response = objectMapper.writeValueAsString(objectNode);
         sendResponse(response, httpExchange);
     }
 

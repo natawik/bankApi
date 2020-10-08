@@ -9,7 +9,7 @@ import lombok.*;
 
 import static bootcamp.bankApi.service.CardService.generateNumber;
 
-public class AccountService {
+public class AccountService implements Service<Account> {
     private final AccountDao accountDao;
 
     public AccountService() {
@@ -20,13 +20,31 @@ public class AccountService {
         this.accountDao = accountDao;
     }
 
-    public List<Account> findAllAccounts() {
+    @Override
+    public Account findById(int accountId) {
+        return accountDao.findById(accountId);
+    }
+
+    @Override
+    public List<Account> findAll() {
         return accountDao.findAll();
     }
 
-    public Account findAccountById(int accountId) {
-        return accountDao.findById(accountId);
+    @Override
+    public void save(Account account) {
+        accountDao.save(account);
     }
+
+    @Override
+    public void update(Account account) {
+        accountDao.update(account);
+    }
+
+    @Override
+    public void delete(Account account) {
+        accountDao.delete(account);
+    }
+
 
     public List<Account> findAccountsForCustomer(int customerId) {
         return accountDao.getListAccountForCustomer(customerId);
@@ -57,14 +75,14 @@ public class AccountService {
         newAccount.setCustomerId(customerId);
         newAccount.setAccountNumber(generateNumber(20));
         newAccount.setBalance(0F);
-        accountDao.save(newAccount);
+        save(newAccount);
         return newAccount;
     }
 
     public Account deleteAccount(int accountId) {
         Account account = accountDao.findById(accountId);
         if (account != null) {
-            accountDao.delete(account);
+            delete(account);
         }
         return account;
     }

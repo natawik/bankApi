@@ -49,6 +49,7 @@ public class CardList extends AbstractHandler {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String response = objectMapper.writeValueAsString(cards);
+        httpExchange.getResponseHeaders().set("Content-Type", "application/xml");
         sendResponse(response, httpExchange);
     }
 
@@ -57,7 +58,7 @@ public class CardList extends AbstractHandler {
         if (!accountId.equals("")) {
             return cardService.findCardsByAccount(Integer.valueOf(accountId));
         } else {
-            return cardService.findAllCards();
+            return cardService.findAll();
         }
     }
 
@@ -70,7 +71,7 @@ public class CardList extends AbstractHandler {
             AccountId accountId = objectMapper.readValue(request, AccountId.class);
             return cardService.findCardsByAccount(accountId.getAccountId());
         } else {
-            return cardService.findAllCards();
+            return cardService.findAll();
         }
     }
 

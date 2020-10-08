@@ -56,6 +56,6 @@ public class AddBalance extends AbstractHandler {
 
         private int accountId;
         private float changeBalance;
-        
+
     }
 }

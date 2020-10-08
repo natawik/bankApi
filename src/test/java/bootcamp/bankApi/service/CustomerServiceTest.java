@@ -31,7 +31,7 @@ public class CustomerServiceTest {
         customers.add(customer);
         when(customerDao.findAll()).thenReturn(customers);
 
-        List<Customer> customersForCheck = subj.findAllCustomers();
+        List<Customer> customersForCheck = subj.findAll();
 
         assertNotNull(customersForCheck);
         assertFalse(customersForCheck.isEmpty());
@@ -45,7 +45,7 @@ public class CustomerServiceTest {
         List<Customer> customers = new ArrayList<>();
         when(customerDao.findAll()).thenReturn(customers);
 
-        List<Customer> customersForCheck = subj.findAllCustomers();
+        List<Customer> customersForCheck = subj.findAll();
 
         assertTrue(customersForCheck.isEmpty());
         assertEquals(customers, customersForCheck);
@@ -60,7 +60,7 @@ public class CustomerServiceTest {
         customer.setFullName("Current");
         when(customerDao.findById(1)).thenReturn(customer);
 
-        Customer customerForCheck = subj.findCustomerById(1);
+        Customer customerForCheck = subj.findById(1);
 
         assertNotNull(customerForCheck);
         assertEquals(customer, customerForCheck);
@@ -72,7 +72,7 @@ public class CustomerServiceTest {
     public void testFindCustomerByIdNotFound() {
         when(customerDao.findById(1)).thenReturn(null);
 
-        Customer customerForCheck = subj.findCustomerById(1);
+        Customer customerForCheck = subj.findById(1);
 
         assertNull(customerForCheck);
 
