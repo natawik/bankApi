@@ -170,8 +170,6 @@ public class AccountServiceTest {
     public void testAddNewAccountAdded() {
         Account account = subj.addNewAccount(1);
 
-        assertNotNull(account);
-
         verify(accountDao).save(account);
     }
 
