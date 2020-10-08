@@ -2,7 +2,6 @@ package bootcamp.bankApi.service;
 
 import bootcamp.bankApi.dao.AccountDao;
 import bootcamp.bankApi.models.Account;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -45,8 +44,7 @@ public class AccountServiceTest {
         assertEquals(2, accountsForCheck.size());
         assertEquals(accounts, accountsForCheck);
 
-        verify(accountDao, times(1)).findAll();
-        verify(subj.findAllAccounts());
+        verify(accountDao).findAll();
     }
 
     @Test
@@ -60,7 +58,7 @@ public class AccountServiceTest {
         assertTrue(accountsForCheck.isEmpty());
         assertEquals(accounts, accountsForCheck);
 
-        verify(accountDao, times(1)).findAll();
+        verify(accountDao).findAll();
     }
 
     @Test
@@ -80,7 +78,7 @@ public class AccountServiceTest {
         assertEquals(1, accountsForCheck.size());
         assertEquals(accounts, accountsForCheck);
 
-        verify(accountDao, times(1)).getListAccountForCustomer(1);
+        verify(accountDao).getListAccountForCustomer(1);
     }
 
     @Test
@@ -94,7 +92,7 @@ public class AccountServiceTest {
         assertTrue(accountsForCheck.isEmpty());
         assertEquals(accounts, accountsForCheck);
 
-        verify(accountDao, times(1)).getListAccountForCustomer(1);
+        verify(accountDao).getListAccountForCustomer(1);
     }
 
     @Test
@@ -109,7 +107,7 @@ public class AccountServiceTest {
 
         assertEquals(balance, acc.getBalance(), 0);
 
-        verify(accountDao, times(1)).findById(1);
+        verify(accountDao).findById(1);
     }
 
     @Test
@@ -120,7 +118,7 @@ public class AccountServiceTest {
 
         assertNull(balance);
 
-        verify(accountDao, times(1)).findById(1);
+        verify(accountDao).findById(1);
     }
 
     @Test
@@ -136,8 +134,8 @@ public class AccountServiceTest {
 
         assertEquals(balance, 123.4F, 0);
 
-        verify(accountDao, times(2)).findById(1); //in deposit and in checkBalance
-        verify(accountDao, times(1)).update(acc);
+        verify(accountDao).findById(1); //in deposit and in checkBalance
+        verify(accountDao).update(acc);
     }
 
     @Test
@@ -149,7 +147,7 @@ public class AccountServiceTest {
 
         assertNull(balance);
 
-        verify(accountDao, times(2)).findById(1); //in deposit and in checkBalance
+        verify(accountDao).findById(1);
     }
 
     @Test
@@ -165,8 +163,8 @@ public class AccountServiceTest {
 
         assertEquals(balance, 23.4F, 0);
 
-        verify(accountDao, times(2)).findById(1); //in deposit and in checkBalance
-        verify(accountDao, times(0)).update(acc);
+        verify(accountDao).findById(1);
+        verify(accountDao).update(acc);
     }
 
     @Test
@@ -175,7 +173,7 @@ public class AccountServiceTest {
 
         assertNotNull(account);
 
-        verify(accountDao, times(1)).save(account);
+        verify(accountDao).save(account);
     }
 
     @Test
@@ -196,8 +194,8 @@ public class AccountServiceTest {
 
         assertNotNull(accountForCheck);
 
-        verify(accountDao, times(1)).findById(1);
-        verify(accountDao, times(1)).delete(account);
+        verify(accountDao).findById(1);
+        verify(accountDao).delete(account);
     }
 
     @Test
