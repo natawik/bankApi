@@ -2,6 +2,7 @@ package bootcamp.bankApi.dao;
 
 import bootcamp.bankApi.models.Customer;
 import bootcamp.bankApi.utils.HibernateSessionFactoryUtil;
+import org.hibernate.Session;
 
 import java.util.List;
 
@@ -12,7 +13,9 @@ public class CustomerDao extends AbstractDao<Customer> {
      */
     @Override
     public Customer findById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Customer.class, id);
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            return session.get(Customer.class, id);
+        }
     }
 
     /*
@@ -20,11 +23,9 @@ public class CustomerDao extends AbstractDao<Customer> {
       */
     @Override
     public List<Customer> findAll() {
-        List<Customer> customers = (List<Customer>) HibernateSessionFactoryUtil
-                .getSessionFactory()
-                .openSession()
-                .createQuery("from Customer")
-                .list();
-        return customers;
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            List<Customer> customers = (List<Customer>) session.createQuery("from Customer").list();
+            return customers;
+        }
     }
 }
