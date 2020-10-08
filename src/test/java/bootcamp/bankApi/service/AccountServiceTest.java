@@ -134,7 +134,7 @@ public class AccountServiceTest {
 
         assertEquals(balance, 123.4F, 0);
 
-        verify(accountDao).findById(1); //in deposit and in checkBalance
+        verify(accountDao, times(2)).findById(1); //in deposit and in checkBalance
         verify(accountDao).update(acc);
     }
 
@@ -147,7 +147,7 @@ public class AccountServiceTest {
 
         assertNull(balance);
 
-        verify(accountDao).findById(1);
+        verify(accountDao, times(2)).findById(1);
     }
 
     @Test
@@ -163,8 +163,7 @@ public class AccountServiceTest {
 
         assertEquals(balance, 23.4F, 0);
 
-        verify(accountDao).findById(1);
-        verify(accountDao).update(acc);
+        verify(accountDao, times(2)).findById(1);
     }
 
     @Test
