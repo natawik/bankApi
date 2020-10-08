@@ -1,3 +1,5 @@
-language: java
-script:
-  - mvn clean install
+image: maven:3-jdk-8
+
+test:
+  script:
+    - mvn clean test
