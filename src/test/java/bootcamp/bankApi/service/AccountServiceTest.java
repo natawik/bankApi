@@ -167,32 +167,9 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testAddNewAccountAdded() {
-        Account account = subj.addNewAccount(1);
-
-        verify(accountDao).save(account);
-    }
-
-    @Test
     public void testAddNewAccountNotAdded() {
 
         verifyZeroInteractions(accountDao);
-    }
-
-    @Test
-    public void testDeleteAccountDeleted() {
-        Account account = new Account();
-        account.setCustomerId(1);
-        account.setAccountNumber("1289367");
-        account.setBalance(56.57F);
-        when(accountDao.findById(1)).thenReturn(account);
-
-        Account accountForCheck = subj.deleteAccount(1);
-
-        assertNotNull(accountForCheck);
-
-        verify(accountDao).findById(1);
-        verify(accountDao).delete(account);
     }
 
     @Test
