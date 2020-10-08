@@ -6,12 +6,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
+
+/*
+http://localhost:8000/balance/add
+POST {"accountId":1,"changeBalance":15000} - увеличить баланс на указанную сумму
+ */
 public class AddBalance extends AbstractHandler {
 
     AccountService accountService = new AccountService();
@@ -43,20 +48,14 @@ public class AddBalance extends AbstractHandler {
         sendResponse(response, httpExchange);
     }
 
+    @NoArgsConstructor
+    @Getter
+    @Setter
     @JsonAutoDetect
     private static class Changer {
 
         private int accountId;
         private float changeBalance;
-
-        public Changer() {}
-
-        public int getAccountId() {
-            return accountId;
-        }
-
-        public float getChangeBalance() {
-            return changeBalance;
-        }
+        
     }
 }

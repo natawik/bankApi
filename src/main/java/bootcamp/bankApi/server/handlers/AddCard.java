@@ -5,9 +5,16 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.IOException;
 
+/*
+http://localhost:8000/cards/add
+POST {"accountId":1} - Выпустить новую карту для указанного счета
+ */
 public class AddCard extends AbstractHandler {
 
     @Override
@@ -35,14 +42,11 @@ public class AddCard extends AbstractHandler {
         sendResponse(response, httpExchange);
     }
 
+    @NoArgsConstructor
+    @Getter
+    @Setter
     @JsonAutoDetect
     private static class CardAccount {
         private int accountId;
-
-        public CardAccount() {}
-
-        public int getAccountId() {
-            return accountId;
-        }
     }
 }

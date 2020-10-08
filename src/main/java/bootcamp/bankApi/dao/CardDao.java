@@ -3,6 +3,7 @@ package bootcamp.bankApi.dao;
 import bootcamp.bankApi.models.Account;
 import bootcamp.bankApi.models.Card;
 import bootcamp.bankApi.utils.HibernateSessionFactoryUtil;
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.ArrayList;
@@ -15,7 +16,10 @@ public class CardDao extends AbstractDao<Card> {
      */
     @Override
     public Card findById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Card.class, id);
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Card card = session.get(Card.class, id);
+            return card;
+        }
     }
 
     /*
@@ -23,12 +27,10 @@ public class CardDao extends AbstractDao<Card> {
       */
     @Override
     public List<Card> findAll() {
-        List<Card> cards = (List<Card>) HibernateSessionFactoryUtil
-                .getSessionFactory()
-                .openSession()
-                .createQuery("from Card")
-                .list();
-        return cards;
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            List<Card> cards = (List<Card>) session.createQuery("from Card").list();
+            return cards;
+        }
     }
 
     /*
@@ -47,8 +49,10 @@ public class CardDao extends AbstractDao<Card> {
     Возвращает список карт, привязанных к счету
      */
     public List<Card> findListCardByAccount(int accountId) {
-        Query query = HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("from Card where account_id = :paramName");
-        query.setParameter("paramName", accountId);
-        return query.list();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Query query = session.createQuery("from Card where account_id = :paramName");
+            query.setParameter("paramName", accountId);
+            return query.list();
+        }
     }
 }

@@ -9,11 +9,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/*
+GET: http://localhost:8000/balance?account=1 - баланс по счету
+POST: {"accountId":1} - баланс по счету
+ */
 public class Balance extends AbstractHandler {
 
     AccountService accountService = new AccountService();
@@ -89,14 +96,11 @@ public class Balance extends AbstractHandler {
         return new Account();
     }
 
+    @NoArgsConstructor
+    @Getter
+    @Setter
     @JsonAutoDetect
     private static class AccountBalance {
         private int accountId;
-
-        public AccountBalance() {}
-
-        public int getAccountId() {
-            return accountId;
-        }
     }
 }

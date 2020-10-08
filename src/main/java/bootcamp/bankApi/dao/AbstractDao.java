@@ -11,11 +11,11 @@ abstract class AbstractDao<T> implements Dao<T> {
       */
     @Override
     public void save(T model) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(model);
-        transaction.commit();
-        session.close();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.save(model);
+            transaction.commit();
+        }
     }
 
     /*
@@ -23,11 +23,11 @@ abstract class AbstractDao<T> implements Dao<T> {
       */
     @Override
     public void update(T model) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.update(model);
-        transaction.commit();
-        session.close();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.update(model);
+            transaction.commit();
+        }
     }
 
     /*
@@ -35,10 +35,10 @@ abstract class AbstractDao<T> implements Dao<T> {
       */
     @Override
     public void delete(T model) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.delete(model);
-        transaction.commit();
-        session.close();
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.delete(model);
+            transaction.commit();
+        }
     }
 }

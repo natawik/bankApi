@@ -6,14 +6,21 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/*
+GET: http://localhost:8000/cards/ - список всех карт
+GET: http://localhost:8000/cards?account=? - список карт по номеру счета
+POST: {"accountId":1} // Список карт по номеру счета
+ */
 public class CardList extends AbstractHandler {
 
     CardService cardService = new CardService();
@@ -34,6 +41,7 @@ public class CardList extends AbstractHandler {
         List<Card> cards = new ArrayList<>();
 
         if (method.equals("GET")) {
+            URI uri = httpExchange.getRequestURI();
             cards = returnCardsGet(httpExchange.getRequestURI().getQuery(), "account");
         } else if (method.equals("POST")) {
             cards = returnCardsPost(httpExchange);
@@ -79,15 +87,12 @@ public class CardList extends AbstractHandler {
         return "";
     }
 
+    @NoArgsConstructor
+    @Getter
+    @Setter
     @JsonAutoDetect
     private static class AccountId {
         private int accountId;
-
-        public AccountId() { }
-
-        public int getAccountId() {
-            return accountId;
-        }
     }
 }
 
