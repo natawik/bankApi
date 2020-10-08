@@ -122,23 +122,6 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testDepositSuccess() {
-        Account acc = new Account();
-        acc.setCustomerId(1);
-        acc.setAccountNumber("123456789");
-        acc.setBalance(23.4F);
-        when(accountDao.findById(1)).thenReturn(acc);
-
-        subj.deposit(1, 100.0F);
-        Float balance = subj.checkBalance(1);
-
-        assertEquals(balance, 123.4F, 0);
-
-        verify(accountDao, times(2)).findById(1); //in deposit and in checkBalance
-        verify(accountDao).update(acc);
-    }
-
-    @Test
     public void testDepositFailedAccountDoesntExist() {
         when(accountDao.findById(1)).thenReturn(null);
 
