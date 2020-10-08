@@ -17,12 +17,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountServiceTest {
-
-    @After
-    public void validate() {
-        validateMockitoUsage();
-    }
-
     @InjectMocks
     AccountService subj;
 
@@ -52,6 +46,7 @@ public class AccountServiceTest {
         assertEquals(accounts, accountsForCheck);
 
         verify(accountDao, times(1)).findAll();
+        verify(subj.findAllAccounts());
     }
 
     @Test
