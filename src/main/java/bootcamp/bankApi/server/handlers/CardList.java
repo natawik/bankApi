@@ -49,7 +49,6 @@ public class CardList extends AbstractHandler {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String response = objectMapper.writeValueAsString(cards);
-        httpExchange.getResponseHeaders().set("Content-Type", "application/xml");
         sendResponse(response, httpExchange);
     }
 
