@@ -16,7 +16,7 @@ public class AccountDaoTest {
         accountDao.save(account);
         Account newAccount = accountDao.findById(account.getId());
 
-        assertEquals(account.getBalance() == newAccount.getBalance(), true);
+        assertTrue(account.getBalance() == newAccount.getBalance());
     }
 
     @Test
@@ -27,7 +27,7 @@ public class AccountDaoTest {
         accountDao.update(account);
         Account newAccount = accountDao.findById(account.getId());
 
-        assertEquals(account.getBalance() == newAccount.getBalance(), true);
+        assertTrue(account.getBalance() == newAccount.getBalance());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class AccountDaoTest {
         AccountDao accountDao = new AccountDao();
         List<Account> accounts = accountDao.findAll();
 
-        assertEquals(accounts.size() > 0, true);
+        assertTrue(accounts.size() > 0);
     }
 
     @Test
@@ -68,6 +68,6 @@ public class AccountDaoTest {
         AccountDao accountDao = new AccountDao();
         List<Account> accounts = accountDao.getListAccountForCustomer(1);
 
-        assertEquals(accounts.size() > 0, true);
+        assertTrue(accounts.size() > 0);
     }
 }

@@ -60,12 +60,11 @@ public class CardService implements Service<Card> {
         return cardDao.findListCardByAccount(accountId);
     }
 
-    public Card addNewCard(int accountId) {
+    public void addNewCard(int accountId) {
         Card newCard = new Card();
         newCard.setAccountId(accountId);
         newCard.setNumber(generateNumber(16));
         cardDao.save(newCard);
-        return newCard;
     }
 
     public Card deleteCard(int cardId) {

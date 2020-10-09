@@ -1,10 +1,7 @@
 package bootcamp.bankApi.server;
 
-import bootcamp.bankApi.models.Card;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import junit.framework.TestCase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class BalanceTest {
 
@@ -46,7 +44,7 @@ public class BalanceTest {
         ObjectMapper objectMapper = new ObjectMapper();
         Balance balance = objectMapper.readValue(response.getBody(), Balance.class);
 
-        assertEquals(balance.getBalance() > 0, true);
+        assertTrue(balance.getBalance() > 0);
     }
 
     @Test

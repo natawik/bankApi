@@ -5,8 +5,6 @@ import bootcamp.bankApi.models.Account;
 
 import java.util.List;
 
-import lombok.*;
-
 import static bootcamp.bankApi.service.CardService.generateNumber;
 
 public class AccountService implements Service<Account> {

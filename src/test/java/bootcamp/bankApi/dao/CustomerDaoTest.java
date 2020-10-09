@@ -1,6 +1,5 @@
 package bootcamp.bankApi.dao;
 
-import bootcamp.bankApi.models.Account;
 import bootcamp.bankApi.models.Customer;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -60,7 +59,7 @@ public class CustomerDaoTest {
         CustomerDao customerDao = new CustomerDao();
         List<Customer> customers = customerDao.findAll();
 
-        assertEquals(customers.size() > 0, true);
+        assertTrue(customers.size() > 0);
     }
 
     @Test

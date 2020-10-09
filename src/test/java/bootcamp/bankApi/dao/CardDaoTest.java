@@ -1,6 +1,5 @@
 package bootcamp.bankApi.dao;
 
-import bootcamp.bankApi.models.Account;
 import bootcamp.bankApi.models.Card;
 import org.junit.Test;
 
